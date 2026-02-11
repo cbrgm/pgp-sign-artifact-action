@@ -72,7 +72,7 @@ func TestNewGoPGPSigner_InvalidKey(t *testing.T) {
 func TestGoPGPSigner_SignFile_DetachedArmor(t *testing.T) {
 	tempDir := t.TempDir()
 	testFile := filepath.Join(tempDir, "test.txt")
-	if err := os.WriteFile(testFile, []byte("Hello, World!"), 0644); err != nil {
+	if err := os.WriteFile(testFile, []byte("Hello, World!"), 0o644); err != nil {
 		t.Fatalf("failed to create test file: %v", err)
 	}
 
@@ -101,7 +101,7 @@ func TestGoPGPSigner_SignFile_DetachedArmor(t *testing.T) {
 func TestGoPGPSigner_SignFile_DetachedBinary(t *testing.T) {
 	tempDir := t.TempDir()
 	testFile := filepath.Join(tempDir, "test.txt")
-	if err := os.WriteFile(testFile, []byte("Hello, World!"), 0644); err != nil {
+	if err := os.WriteFile(testFile, []byte("Hello, World!"), 0o644); err != nil {
 		t.Fatalf("failed to create test file: %v", err)
 	}
 
@@ -131,7 +131,7 @@ func TestGoPGPSigner_SignFile_ClearSign(t *testing.T) {
 	tempDir := t.TempDir()
 	testFile := filepath.Join(tempDir, "test.txt")
 	testContent := "Hello, World!"
-	if err := os.WriteFile(testFile, []byte(testContent), 0644); err != nil {
+	if err := os.WriteFile(testFile, []byte(testContent), 0o644); err != nil {
 		t.Fatalf("failed to create test file: %v", err)
 	}
 
@@ -164,7 +164,7 @@ func TestGoPGPSigner_SignFile_ClearSign(t *testing.T) {
 func TestGoPGPSigner_SignFile_InlineArmor(t *testing.T) {
 	tempDir := t.TempDir()
 	testFile := filepath.Join(tempDir, "test.txt")
-	if err := os.WriteFile(testFile, []byte("Hello, World!"), 0644); err != nil {
+	if err := os.WriteFile(testFile, []byte("Hello, World!"), 0o644); err != nil {
 		t.Fatalf("failed to create test file: %v", err)
 	}
 
@@ -206,7 +206,7 @@ func TestGoPGPSigner_SignFile_NonexistentFile(t *testing.T) {
 func TestGoPGPSigner_SignFile_WithPassphrase(t *testing.T) {
 	tempDir := t.TempDir()
 	testFile := filepath.Join(tempDir, "test.txt")
-	if err := os.WriteFile(testFile, []byte("Hello, World!"), 0644); err != nil {
+	if err := os.WriteFile(testFile, []byte("Hello, World!"), 0o644); err != nil {
 		t.Fatalf("failed to create test file: %v", err)
 	}
 
