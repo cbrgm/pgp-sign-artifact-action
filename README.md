@@ -8,51 +8,39 @@
 [![go-binaries](https://github.com/cbrgm/pgp-sign-artifact-action/actions/workflows/go-binaries.yml/badge.svg)](https://github.com/cbrgm/pgp-sign-artifact-action/actions/workflows/go-binaries.yml)
 [![container](https://github.com/cbrgm/pgp-sign-artifact-action/actions/workflows/container.yml/badge.svg)](https://github.com/cbrgm/pgp-sign-artifact-action/actions/workflows/container.yml)
 
+- [PGP Sign Artifact Action](#pgp-sign-artifact-action)
+  - [Inputs](#inputs)
+  - [Workflow Usage](#workflow-usage)
+    - [Basic Example: Sign Release Artifacts](#basic-example-sign-release-artifacts)
+    - [Example: Sign with Exclusions](#example-sign-with-exclusions)
+    - [Example: Clear Sign a Changelog](#example-clear-sign-a-changelog)
+    - [Example: Binary Signatures](#example-binary-signatures)
+    - [Example: Using GnuPG Backend](#example-using-gnupg-backend)
+    - [Example: Debug Logging](#example-debug-logging)
+    - [Example: Upload Signatures as Release Assets](#example-upload-signatures-as-release-assets)
+  - [Choosing a Backend](#choosing-a-backend)
+  - [CLI Usage (Standalone Binary)](#cli-usage-standalone-binary)
+    - [Installation](#installation)
+    - [CLI Arguments](#cli-arguments)
+    - [CLI Examples](#cli-examples)
+  - [Generating GPG Keys](#generating-gpg-keys)
+  - [Output Files](#output-files)
+  - [Verifying Signatures](#verifying-signatures)
+  - [Troubleshooting](#troubleshooting)
+  - [Local Development](#local-development)
+  - [Contributing & License](#contributing--license)
+
 ## Inputs
 
-### `private_key`
-**Required** - The private GPG key used for signing (armored format). Store this securely in GitHub Secrets.
-
-### `passphrase`
-**Optional** - Passphrase for the GPG key if it is encrypted.
-
-### `armor`
-**Optional** - Create ASCII armored output. Default: `true`.
-- `true` - Output signature in ASCII armored format (`.asc` extension)
-- `false` - Output signature in binary format (`.sig` or `.gpg` extension)
-
-### `detach_sign`
-**Optional** - Make a detached signature. Default: `false`.
-- `true` - Creates a separate signature file alongside the original file
-- `false` - Creates an inline signature
-
-### `clear_sign`
-**Optional** - Make a clear text signature. Default: `false`.
-- `true` - Creates a clear-signed message (original content + signature in one file)
-- `false` - Creates a standard signature
-
-### `files`
-**Required** - List of files to sign. Supports glob patterns, with multiple patterns separated by newlines.
-
-Examples:
-- `dist/*` - All files in dist directory
-- `*.tar.gz` - All tar.gz files
-- `**/*.bin` - All .bin files recursively
-
-### `excludes`
-**Optional** - List of files to exclude from signing. Supports glob patterns, with multiple patterns separated by newlines.
-
-### `backend`
-**Optional** - Signer backend to use. Default: `gopgp`.
-- `gopgp` - Pure Go implementation using [gopenpgp](https://github.com/ProtonMail/gopenpgp) (default, no external dependencies)
-- `gnupg` - System GnuPG installation (requires `gpg` to be available)
-
-### `log_level`
-**Optional** - Log level for output verbosity. Default: `info`.
-- `debug` - Verbose output including configuration details (never exposes keys or passphrases)
-- `info` - Standard output showing files being signed
-- `warn` - Only warnings and errors
-- `error` - Only errors
+- `private_key`: **Required** - The private GPG key used for signing (armored format). Store this securely in GitHub Secrets.
+- `passphrase`: **Optional** - Passphrase for the GPG key if it is encrypted.
+- `armor`: **Optional** - Create ASCII armored output (`.asc` extension). Set to `false` for binary output (`.sig` or `.gpg` extension). Default is `true`.
+- `detach_sign`: **Optional** - Make a detached signature. Creates a separate signature file alongside the original file. Default is `false`.
+- `clear_sign`: **Optional** - Make a clear text signature. Creates a clear-signed message with original content and signature in one file. Default is `false`.
+- `files`: **Required** - List of files to sign. Supports glob patterns (e.g., `dist/*`, `*.tar.gz`, `**/*.bin`), with multiple patterns separated by newlines.
+- `excludes`: **Optional** - List of files to exclude from signing. Supports glob patterns, with multiple patterns separated by newlines.
+- `backend`: **Optional** - Signer backend to use: `gopgp` (pure Go, no dependencies) or `gnupg` (system GPG). Default is `gopgp`.
+- `log_level`: **Optional** - Log level for output verbosity: `debug`, `info`, `warn`, or `error`. Default is `info`.
 
 ## Workflow Usage
 
@@ -284,7 +272,7 @@ pgp-sign-artifact-action \
 
 ## Generating GPG Keys
 
-### Generate a New Key
+**Generate a new key:**
 
 ```bash
 # Generate a new key (follow the prompts)
@@ -296,7 +284,7 @@ gpg --armor --export-secret-keys your-email@example.com > private-key.asc
 # Store the content of private-key.asc as a GitHub Secret (GPG_PRIVATE_KEY)
 ```
 
-### Export Public Key for Verification
+**Export public key for verification:**
 
 ```bash
 # Export public key for recipients to verify signatures
@@ -318,7 +306,7 @@ Signatures are written alongside the original files. The output filename and ext
 | Neither (inline) | `true` | `file.txt` | `file.txt.asc` |
 | Neither (inline) | `false` | `file.txt` | `file.txt.gpg` |
 
-**Signature Types:**
+**Signature types:**
 
 | Option | Description |
 |--------|-------------|
@@ -343,7 +331,7 @@ gpg --decrypt file.asc
 
 ## Troubleshooting
 
-### Common Errors
+**Common errors:**
 
 | Error | Cause | Solution |
 |-------|-------|----------|
@@ -353,7 +341,7 @@ gpg --decrypt file.asc
 | `no files matched the specified patterns` | Glob pattern didn't match | Check patterns and working directory; use `log_level: debug` |
 | `gpg command failed` (gnupg backend) | System GPG issue | Ensure `gpg` is installed and accessible |
 
-### Debug Tips
+**Debug tips:**
 
 1. **Enable debug logging** to see configuration details:
    ```yaml
