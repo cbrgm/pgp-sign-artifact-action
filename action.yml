@@ -1,0 +1,61 @@
+name: 'PGP Sign Artifact Action'
+description: 'Sign artifacts or any file with PGP signatures'
+author: 'cbrgm'
+
+inputs:
+  private_key:
+    description: 'Private GPG key used for signing (armored format)'
+    required: true
+  passphrase:
+    description: 'Passphrase for the GPG key (if encrypted)'
+    required: false
+  armor:
+    description: 'Create ASCII armored output'
+    required: false
+    default: 'true'
+  detach_sign:
+    description: 'Make a detached signature'
+    required: false
+    default: 'false'
+  clear_sign:
+    description: 'Make a clear text signature'
+    required: false
+    default: 'false'
+  files:
+    description: 'List of files to sign (glob patterns, newline separated)'
+    required: true
+  excludes:
+    description: 'List of files to exclude from signing (glob patterns, newline separated)'
+    required: false
+  backend:
+    description: 'Signer backend: gopgp (pure Go, default) or gnupg (system GPG)'
+    required: false
+    default: 'gopgp'
+  log_level:
+    description: 'Log level: debug, info, warn, error'
+    required: false
+    default: 'info'
+
+runs:
+  using: docker
+  image: 'docker://ghcr.io/cbrgm/pgp-sign-artifact-action:v1'
+  args:
+    - --private-key
+    - ${{ inputs.private_key }}
+    - --passphrase
+    - ${{ inputs.passphrase }}
+    - --armor=${{ inputs.armor }}
+    - --detach-sign=${{ inputs.detach_sign }}
+    - --clear-sign=${{ inputs.clear_sign }}
+    - --files
+    - ${{ inputs.files }}
+    - --excludes
+    - ${{ inputs.excludes }}
+    - --backend
+    - ${{ inputs.backend }}
+    - --log-level
+    - ${{ inputs.log_level }}
+
+branding:
+  icon: lock
+  color: green
