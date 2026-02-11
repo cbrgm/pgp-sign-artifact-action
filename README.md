@@ -1,6 +1,6 @@
 # PGP Sign Artifact Action
 
-**Sign artifacts or any file with PGP signatures.**
+**Sign artifacts or files with PGP signatures using either a pure Go implementation or system GnuPG.**
 
 [![GitHub release](https://img.shields.io/github/release/cbrgm/pgp-sign-artifact-action.svg)](https://github.com/cbrgm/pgp-sign-artifact-action)
 [![Go Report Card](https://goreportcard.com/badge/github.com/cbrgm/pgp-sign-artifact-action)](https://goreportcard.com/report/github.com/cbrgm/pgp-sign-artifact-action)

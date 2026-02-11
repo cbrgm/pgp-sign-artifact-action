@@ -1,5 +1,5 @@
 name: 'PGP Sign Artifact Action'
-description: 'Sign artifacts or any file with PGP signatures'
+description: 'Sign artifacts or files with PGP signatures using either a pure Go implementation or system GnuPG'
 author: 'cbrgm'
 
 inputs:
