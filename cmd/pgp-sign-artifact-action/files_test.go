@@ -24,10 +24,10 @@ func TestDefaultFileFinder_FindFiles(t *testing.T) {
 
 	for _, f := range testFiles {
 		path := filepath.Join(tempDir, f)
-		if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil {
+		if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
 			t.Fatalf("failed to create directory: %v", err)
 		}
-		if err := os.WriteFile(path, []byte("test"), 0644); err != nil {
+		if err := os.WriteFile(path, []byte("test"), 0o644); err != nil {
 			t.Fatalf("failed to create file: %v", err)
 		}
 	}
@@ -183,13 +183,13 @@ func TestFindFiles_DirectoriesExcluded(t *testing.T) {
 	tempDir := t.TempDir()
 
 	// Create a directory that matches the pattern
-	if err := os.Mkdir(filepath.Join(tempDir, "matches.txt"), 0755); err != nil {
+	if err := os.Mkdir(filepath.Join(tempDir, "matches.txt"), 0o755); err != nil {
 		t.Fatalf("failed to create directory: %v", err)
 	}
 
 	// Create a file that matches the pattern
 	filePath := filepath.Join(tempDir, "file.txt")
-	if err := os.WriteFile(filePath, []byte("content"), 0644); err != nil {
+	if err := os.WriteFile(filePath, []byte("content"), 0o644); err != nil {
 		t.Fatalf("failed to create file: %v", err)
 	}
 
@@ -208,7 +208,7 @@ func TestFindFiles_NoDuplicates(t *testing.T) {
 	tempDir := t.TempDir()
 
 	filePath := filepath.Join(tempDir, "file.txt")
-	if err := os.WriteFile(filePath, []byte("content"), 0644); err != nil {
+	if err := os.WriteFile(filePath, []byte("content"), 0o644); err != nil {
 		t.Fatalf("failed to create file: %v", err)
 	}
 

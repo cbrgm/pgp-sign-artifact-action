@@ -10,7 +10,6 @@ import (
 // GnuPGSigner implements Signer using the system's GnuPG installation.
 type GnuPGSigner struct {
 	passphrase string
-	keyID      string
 }
 
 // NewGnuPGSigner creates a new GnuPGSigner and imports the private key.

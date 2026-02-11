@@ -24,9 +24,9 @@ var (
 type SignerBackend string
 
 const (
-	BackendGoPGP  SignerBackend = "gopgp"
-	BackendGnuPG  SignerBackend = "gnupg"
-	DefaultBackend              = BackendGoPGP
+	BackendGoPGP   SignerBackend = "gopgp"
+	BackendGnuPG   SignerBackend = "gnupg"
+	DefaultBackend               = BackendGoPGP
 )
 
 // ActionInputs holds the input parameters for the GPG signing action.
@@ -183,6 +183,8 @@ func parseMultilineInput(input string) []string {
 }
 
 // setActionOutput writes an output value for GitHub Actions.
+//
+//nolint:unused
 func setActionOutput(name, value string) {
 	outputFile := os.Getenv("GITHUB_OUTPUT")
 	if outputFile == "" {
@@ -190,16 +192,19 @@ func setActionOutput(name, value string) {
 		return
 	}
 
-	f, err := os.OpenFile(outputFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	f, err := os.OpenFile(outputFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o644)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Warning: failed to open GITHUB_OUTPUT file: %v\n", err)
 		fmt.Printf("::set-output name=%s::%s\n", name, value)
 		return
 	}
-	defer f.Close()
 
 	if _, err := io.WriteString(f, fmt.Sprintf("%s=%s\n", name, value)); err != nil {
 		fmt.Fprintf(os.Stderr, "Warning: failed to write to GITHUB_OUTPUT file: %v\n", err)
 		fmt.Printf("::set-output name=%s::%s\n", name, value)
+	}
+
+	if err := f.Close(); err != nil {
+		fmt.Fprintf(os.Stderr, "Warning: failed to close GITHUB_OUTPUT file: %v\n", err)
 	}
 }

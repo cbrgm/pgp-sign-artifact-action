@@ -69,7 +69,7 @@ func (s *GoPGPSigner) SignFile(filePath string, opts SignOptions) error {
 	}
 
 	outputPath := s.getOutputPath(filePath, opts)
-	if err := os.WriteFile(outputPath, signature, 0644); err != nil {
+	if err := os.WriteFile(outputPath, signature, 0o644); err != nil {
 		return fmt.Errorf("failed to write signature: %w", err)
 	}
 

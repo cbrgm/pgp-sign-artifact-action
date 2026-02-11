@@ -9,14 +9,14 @@ import (
 
 // FileFinder defines the interface for finding files.
 type FileFinder interface {
-	FindFiles(workDir string, patterns []string, excludes []string) ([]string, error)
+	FindFiles(workDir string, patterns, excludes []string) ([]string, error)
 }
 
 // DefaultFileFinder implements FileFinder using the standard library.
 type DefaultFileFinder struct{}
 
 // FindFiles finds files matching patterns while excluding others.
-func (f *DefaultFileFinder) FindFiles(workDir string, patterns []string, excludes []string) ([]string, error) {
+func (f *DefaultFileFinder) FindFiles(workDir string, patterns, excludes []string) ([]string, error) {
 	if workDir == "" {
 		workDir = "."
 	}
