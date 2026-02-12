@@ -75,7 +75,7 @@ gpg --keyserver keys.openpgp.org --recv-keys DE2CA41786945C5CC12F5F435F1F18563E4
 
 Ensure the key fingerprint matches:
 
-```
+```bash
 pub   rsa4096 2026-02-12 [SC]
       DE2C A417 8694 5C5C C12F  5F43 5F1F 1856 3E47 6666
 uid           [ultimate] Christian Bargmann <github@cbrgm.net>
