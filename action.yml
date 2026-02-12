@@ -39,11 +39,10 @@ inputs:
 runs:
   using: docker
   image: 'docker://ghcr.io/cbrgm/pgp-sign-artifact-action:v1'
+  env:
+    PRIVATE_KEY: ${{ inputs.private_key }}
+    PASSPHRASE: ${{ inputs.passphrase }}
   args:
-    - --private-key
-    - ${{ inputs.private_key }}
-    - --passphrase
-    - ${{ inputs.passphrase }}
     - --armor=${{ inputs.armor }}
     - --detach-sign=${{ inputs.detach_sign }}
     - --clear-sign=${{ inputs.clear_sign }}
