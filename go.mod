@@ -3,7 +3,7 @@ module github.com/cbrgm/pgp-sign-artifact-action
 go 1.25.6
 
 require (
-	github.com/ProtonMail/gopenpgp/v3 v3.4.0
+	github.com/ProtonMail/gopenpgp/v3 v3.4.1
 	github.com/alexflint/go-arg v1.6.1
 )
 
